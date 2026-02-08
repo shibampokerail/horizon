@@ -6,8 +6,7 @@
 [![Chrome Web Store](https://img.shields.io/badge/Chrome_Web_Store-v1.0-blue.svg)](<!-- Add your Chrome Web Store link here -->)
 [![Made with Vanilla JS](https://img.shields.io/badge/Made%20with-Vanilla%20JS-F7DF1E.svg)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 
-![Horizon Popup UI](<!-- Add a link to your screenshot here. Upload it to your repo and link it. -->)
-*The Horizon control panel, featuring the deep space glassmorphism theme.*
+![Horizon Popup UI](https://raw.githubusercontent.com/shibampokerail/horizon/refs/heads/main/screenshots/Horizon.png)
 
 ---
 

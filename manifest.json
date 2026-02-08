@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "Scroll Blackhole",
+  "version": "2.0",
+  "description": "Scrolling gets harder the more you scroll — like a black hole.",
+  "permissions": ["storage", "tabs"],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "css": ["content.css"],
+      "run_at": "document_start"
+    }
+  ]
+}

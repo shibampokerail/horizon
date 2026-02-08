@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <span class="icon">🕳️</span>
+      <h1>Scroll Blackhole</h1>
+    </div>
+
+    <div class="section">
+      <label>
+        Resistance Growth
+        <span class="value" id="resistanceValue">0.00008</span>
+      </label>
+      <input type="range" id="resistanceGrowth" min="0.00001" max="0.0005" step="0.00001" value="0.00008">
+      <small>How quickly scrolling becomes harder</small>
+    </div>
+
+    <div class="section">
+      <label>
+        Max Resistance
+        <span class="value" id="maxResistanceValue">99.9%</span>
+      </label>
+      <input type="range" id="maxResistance" min="0.9" max="0.999" step="0.001" value="0.999">
+      <small>Maximum difficulty cap</small>
+    </div>
+
+    <div class="section">
+      <label>
+        Recovery Rate
+        <span class="value" id="recoveryValue">2.5x</span>
+      </label>
+      <input type="range" id="recoveryRate" min="1" max="5" step="0.1" value="2.5">
+      <small>How fast scrolling up recovers you</small>
+    </div>
+
+    <div class="section">
+      <label class="checkbox">
+        <input type="checkbox" id="blockKeyboard" checked>
+        <span>Block keyboard scrolling (↓ PgDn End)</span>
+      </label>
+    </div>
+
+    <div class="section">
+      <label class="checkbox">
+        <input type="checkbox" id="blockScrollbar" checked>
+        <span>Hide scrollbar (prevent dragging)</span>
+      </label>
+    </div>
+
+    <!-- <div class="section">
+      <label class="checkbox">
+        <input type="checkbox" id="enableEasterEgg" checked>
+        <span>Enable escape hatch 🥚</span>
+      </label>
+      <small>Secret redirect after extreme scrolling</small>
+    </div> -->
+
+    <div class="buttons">
+      <button id="reset" class="secondary">Reset to Default</button>
+      <button id="save" class="primary">Save Settings</button>
+    </div>
+
+    <div class="footer">
+      <small>Settings apply to all tabs after reload</small>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

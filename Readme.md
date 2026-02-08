@@ -92,8 +92,5 @@ Pull requests are welcome! If you have an idea for a new feature or have found a
 
 ## Privacy Policy
 
-This extension is built to be private-first. **No data, browsing history, or settings ever leave your local machine.** All operations are performed client-side. For more details, please read the full [Privacy Policy](<!-- Add a link to your privacy policy page here -->).
+This extension is built to be private-first. **No data, browsing history, or settings ever leave your local machine.** All operations are performed client-side.
 
-## License
-
-This project is licensed under the MIT License - see the `LICENSE.md` file for details.

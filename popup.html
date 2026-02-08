@@ -3,99 +3,147 @@
 <head>
   <meta charset="utf-8">
   <link rel="stylesheet" href="popup.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
+  
+  <!-- Background Ambient Glow -->
+  <div class="glow-bg"></div>
+
   <div class="container">
-    <div class="header">
-      <span class="icon">🕳️</span>
-      <h1>Horizon</h1>
+    
+    <!-- Header & Master Switch -->
+    <div class="header-card">
+      <div class="title-group">
+        <div class="icon-wrapper">
+          <span class="icon">🕳️</span>
+        </div>
+        <div>
+          <h1>Horizon</h1>
+          <div class="status-text" id="statusText">System Offline</div>
+        </div>
+      </div>
+      <label class="switch">
+        <input type="checkbox" id="eventHorizonEnabled">
+        <span class="slider round"></span>
+      </label>
     </div>
 
     <!-- Navigation Tabs -->
     <div class="nav-tabs">
       <button class="nav-btn active" data-tab="settings">Physics</button>
-      <button class="nav-btn" data-tab="sites">My Sites</button>
+      <button class="nav-btn" data-tab="sites">Target Sites</button>
     </div>
 
     <!-- TAB 1: SETTINGS -->
     <div id="tab-settings" class="tab-content active">
-      <div class="section">
-        <div class="section-header" id="eventHorizonToggle">
-          <h2>⚫ Event Horizon</h2>
-          <span class="chevron">▼</span>
+      
+      <!-- Physics Controls -->
+      <!-- Physics Controls -->
+      <div class="card" id="physicsCard">
+        <div class="card-header">
+          <h2>Scroll Control Parameters</h2>
         </div>
         
-        <!-- Default State: Collapsed (removed 'open' class) -->
-        <div class="collapsible-content" id="eventHorizonContent">
-          <label class="checkbox main-toggle">
-            <input type="checkbox" id="eventHorizonEnabled">
-            <span>Enable Event Horizon</span>
-          </label>
-          <hr>
-
-          <div class="physics-controls">
-            <div class="control-group">
-              <label>Rate Of Speed Decline <span class="value" id="gravitationalValue"></span></label>
-              <input type="range" id="gravitationalPull" min="0.00001" max="0.0005" step="0.00001">
+        <div class="physics-controls">
+          
+          <!-- Control 1 -->
+          <div class="control-group">
+            <div class="label-row">
+              <div class="label-group">
+                <label>Time Dilation</label>
+                <div class="info-icon">i
+                  <div class="tooltip">Determines how quickly scrolling becomes difficult. Higher values = faster resistance.</div>
+                </div>
+              </div>
+              <span class="value mono" id="gravitationalValue">0.00008</span>
             </div>
-
-            <div class="control-group">
-              <label>Pull At Event Horizon <span class="value" id="singularityValue"></span></label>
-              <input type="range" id="singularityStrength" min="0.9" max="0.999" step="0.001">
-            </div>
-
-            <div class="control-group">
-              <label>Rewind Speed <span class="value" id="hawkingValue"></span></label>
-              <input type="range" id="hawkingRadiation" min="1" max="5" step="0.1">
-            </div>
+            <input type="range" id="gravitationalPull" min="0.00001" max="0.0005" step="0.00001">
           </div>
+
+          <!-- Control 2 -->
+          <div class="control-group">
+            <div class="label-row">
+              <div class="label-group">
+                <label>Event Horizon Limit</label>
+                <div class="info-icon">i
+                  <div class="tooltip">The maximum gravity strength. 99.9% means the page will eventually freeze completely.</div>
+                </div>
+              </div>
+              <span class="value mono" id="singularityValue">99.9%</span>
+            </div>
+            <input type="range" id="singularityStrength" min="0.9" max="0.999" step="0.001">
+          </div>
+
+          <!-- Control 3 -->
+          <div class="control-group">
+            <div class="label-row">
+              <div class="label-group">
+                <label>Hawking Radiation</label>
+                <div class="info-icon">i
+                  <div class="tooltip">The recovery rate when you scroll up. Higher values let you escape gravity faster.</div>
+                </div>
+              </div>
+              <span class="value mono" id="hawkingValue">2.5x</span>
+            </div>
+            <input type="range" id="hawkingRadiation" min="1" max="5" step="0.1">
+          </div>
+
         </div>
       </div>
 
-      <div class="section">
-        <h2>Quantum Locks</h2>
-        <label class="checkbox">
-          <input type="checkbox" id="blockKeyboard">
-          <span>Block keyboard navigation</span>
-        </label>
-        <label class="checkbox">
-          <input type="checkbox" id="blockScrollbar">
-          <span>Hide scrollbar interface</span>
-        </label>
+      <!-- Quantum Locks -->
+      <div class="card">
+        <div class="card-header">
+          <h2>Quantum Locks</h2>
+        </div>
+        <div class="toggles-list">
+          <label class="checkbox-row">
+            <span>Block Keyboard Navigation</span>
+            <input type="checkbox" id="blockKeyboard">
+            <div class="check-indicator"></div>
+          </label>
+          <label class="checkbox-row">
+            <span>Hide Scrollbar Interface</span>
+            <input type="checkbox" id="blockScrollbar">
+            <div class="check-indicator"></div>
+          </label>
+        </div>
       </div>
       
-      <div class="buttons">
-        <button id="reset" class="secondary">Reset</button>
-        <button id="save" class="primary">Apply</button>
+      <div class="action-buttons">
+        <button id="reset" class="btn secondary">Reset</button>
+        <button id="save" class="btn primary">Apply Changes</button>
       </div>
     </div>
 
     <!-- TAB 2: SITES MANAGER -->
     <div id="tab-sites" class="tab-content">
-      <div class="input-group">
-        <input type="text" id="newSiteInput" placeholder="e.g., reddit.com">
-        <button id="addSiteBtn" class="primary-btn">+</button>
-      </div>
       
-      <button id="addCurrentSiteBtn" class="secondary-full">
-        + Add Active Tab
-      </button>
+      <div class="card">
+        <div class="input-group">
+          <input type="text" id="newSiteInput" placeholder="domain.com">
+          <button id="addSiteBtn" class="icon-btn">
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          </button>
+        </div>
+        <button id="addCurrentSiteBtn" class="btn-dashed">
+          + Track Current Tab
+        </button>
+      </div>
 
-      <div class="table-container">
+      <div class="stats-header">
+        <span>Active Targets</span>
+        <span>Time Spent</span>
+      </div>
+
+      <div class="sites-list-container">
         <table id="sitesTable">
-          <thead>
-            <tr>
-              <th>Site</th>
-              <th>Time Lost</th>
-              <th></th>
-            </tr>
-          </thead>
           <tbody id="sitesTableBody">
             <!-- Populated by JS -->
           </tbody>
         </table>
       </div>
-      <div class="footer-note">Time tracked while tab is active</div>
     </div>
   </div>
 

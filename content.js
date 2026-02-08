@@ -90,7 +90,6 @@
     }
   }
 
-  // 🥚 Easter egg
   function triggerEasterEgg() {
     // Create dramatic fade overlay
     const overlay = document.createElement('div');

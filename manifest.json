@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
-  "name": "Scroll Blackhole",
-  "version": "2.0",
+  "name": "Horizon",
+  "version": "1.0",
   "description": "Scrolling gets harder the more you scroll — like a black hole.",
   "permissions": ["storage", "tabs"],
   "action": {

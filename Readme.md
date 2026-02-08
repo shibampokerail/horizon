@@ -2,7 +2,6 @@
 
 **Slows down your doomscrolling before you get sucked in.**
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Chrome Web Store](https://img.shields.io/badge/Chrome_Web_Store-v1.0-blue.svg)](<!-- Add your Chrome Web Store link here -->)
 [![Made with Vanilla JS](https://img.shields.io/badge/Made%20with-Vanilla%20JS-F7DF1E.svg)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 

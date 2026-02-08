@@ -49,7 +49,7 @@ If you want to tinker with the code, you can install the extension locally.
 
 1.  **Clone the repository:**
     ```bash
-    git clone https://github.com/your-username/horizon.git
+    git clone [https://github.com/your-username/horizon.git](https://github.com/shibampokerail/horizon.git)
     ```
 2.  Open Google Chrome and navigate to `chrome://extensions`.
 3.  Enable **"Developer mode"** using the toggle in the top-right corner.

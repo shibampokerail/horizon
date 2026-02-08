@@ -7,6 +7,19 @@ document.addEventListener('DOMContentLoaded', () => {
   const masterSwitch = document.getElementById('eventHorizonEnabled');
   const physicsCard = document.getElementById('physicsCard');
 
+
+  const modal = document.getElementById('helpModal');
+  const helpBtn = document.getElementById('helpBtn');
+  const closeBtn = document.getElementById('closeHelpBtn');
+
+  helpBtn.addEventListener('click', () => modal.classList.add('active'));
+  closeBtn.addEventListener('click', () => modal.classList.remove('active'));
+  
+  // Close when clicking outside
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) modal.classList.remove('active');
+  });
+
   const DEFAULTS = {
     gravitationalPull: 0.00008,
     singularityStrength: 0.999,

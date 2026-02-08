@@ -7,26 +7,29 @@
 </head>
 <body>
   
-  <!-- Background Ambient Glow -->
   <div class="glow-bg"></div>
 
   <div class="container">
     
-    <!-- Header & Master Switch -->
+    <!-- Header -->
     <div class="header-card">
       <div class="title-group">
         <div class="icon-wrapper">
-          <span class="icon"><img src="icons/icon32.png" alt="" class="src"></span>
+          <span class="icon">🕳️</span>
         </div>
         <div>
           <h1>Horizon</h1>
           <div class="status-text" id="statusText">System Offline</div>
         </div>
       </div>
-      <label class="switch">
-        <input type="checkbox" id="eventHorizonEnabled">
-        <span class="slider round"></span>
-      </label>
+      
+      <div class="header-controls">
+        <button id="helpBtn" class="icon-btn-round" title="System Protocols">?</button>
+        <label class="switch">
+          <input type="checkbox" id="eventHorizonEnabled">
+          <span class="slider round"></span>
+        </label>
+      </div>
     </div>
 
     <!-- Navigation Tabs -->
@@ -37,76 +40,55 @@
 
     <!-- TAB 1: SETTINGS -->
     <div id="tab-settings" class="tab-content active">
-      
-      <!-- Physics Controls -->
-      <!-- Physics Controls -->
       <div class="card" id="physicsCard">
-        <div class="card-header">
-          <h2>Scroll Control Parameters</h2>
-        </div>
-        
+        <div class="card-header"><h2>Scroll Control Parameters</h2></div>
         <div class="physics-controls">
-          
           <!-- Control 1 -->
           <div class="control-group">
             <div class="label-row">
               <div class="label-group">
                 <label>Time Dilation</label>
-                <div class="info-icon">i
-                  <div class="tooltip">Determines how quickly scrolling becomes difficult. Higher values = faster resistance.</div>
-                </div>
+                <div class="info-icon">i<div class="tooltip">How fast gravity increases. Higher = harder scrolling.</div></div>
               </div>
               <span class="value mono" id="gravitationalValue">0.00008</span>
             </div>
             <input type="range" id="gravitationalPull" min="0.00001" max="0.0005" step="0.00001">
           </div>
-
           <!-- Control 2 -->
           <div class="control-group">
             <div class="label-row">
               <div class="label-group">
                 <label>Event Horizon Limit</label>
-                <div class="info-icon">i
-                  <div class="tooltip">The maximum gravity strength. 99.9% means the page will eventually freeze completely.</div>
-                </div>
+                <div class="info-icon">i<div class="tooltip">Maximum drag strength. 99.9% = Complete freeze.</div></div>
               </div>
               <span class="value mono" id="singularityValue">99.9%</span>
             </div>
             <input type="range" id="singularityStrength" min="0.9" max="0.999" step="0.001">
           </div>
-
           <!-- Control 3 -->
           <div class="control-group">
             <div class="label-row">
               <div class="label-group">
                 <label>Hawking Radiation</label>
-                <div class="info-icon">i
-                  <div class="tooltip">The recovery rate when you scroll up. Higher values let you escape gravity faster.</div>
-                </div>
+                <div class="info-icon">i<div class="tooltip">Recovery rate when scrolling UP to escape.</div></div>
               </div>
               <span class="value mono" id="hawkingValue">2.5x</span>
             </div>
             <input type="range" id="hawkingRadiation" min="1" max="5" step="0.1">
           </div>
-
         </div>
       </div>
 
-      <!-- Quantum Locks -->
       <div class="card">
-        <div class="card-header">
-          <h2>Quantum Locks</h2>
-        </div>
+        <div class="card-header"><h2>Quantum Locks</h2></div>
         <div class="toggles-list">
           <label class="checkbox-row">
             <span>Block Keyboard Navigation</span>
-            <input type="checkbox" id="blockKeyboard">
-            <div class="check-indicator"></div>
+            <input type="checkbox" id="blockKeyboard"><div class="check-indicator"></div>
           </label>
           <label class="checkbox-row">
             <span>Hide Scrollbar Interface</span>
-            <input type="checkbox" id="blockScrollbar">
-            <div class="check-indicator"></div>
+            <input type="checkbox" id="blockScrollbar"><div class="check-indicator"></div>
           </label>
         </div>
       </div>
@@ -117,32 +99,60 @@
       </div>
     </div>
 
-    <!-- TAB 2: SITES MANAGER -->
+    <!-- TAB 2: SITES -->
     <div id="tab-sites" class="tab-content">
-      
       <div class="card">
         <div class="input-group">
           <input type="text" id="newSiteInput" placeholder="domain.com">
           <button id="addSiteBtn" class="icon-btn">
-            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+             <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
           </button>
         </div>
-        <button id="addCurrentSiteBtn" class="btn-dashed">
-          + Track Current Tab
-        </button>
+        <button id="addCurrentSiteBtn" class="btn-dashed">+ Add Current Tab</button>
       </div>
-
-      <div class="stats-header">
-        <span>Active Targets</span>
-        <span>Time Spent</span>
-      </div>
-
+      <div class="stats-header"><span>Active Targets</span><span>Time Dilated</span></div>
       <div class="sites-list-container">
-        <table id="sitesTable">
-          <tbody id="sitesTableBody">
-            <!-- Populated by JS -->
-          </tbody>
-        </table>
+        <table id="sitesTable"><tbody id="sitesTableBody"></tbody></table>
+      </div>
+    </div>
+  </div>
+
+  <!-- HELP MODAL OVERLAY -->
+  <div id="helpModal" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>About</h3>
+        <button id="closeHelpBtn" class="close-modal">×</button>
+      </div>
+      <div class="modal-content">
+        <div class="step-item">
+          <div class="step-num">01</div>
+          <div class="step-text">
+            <strong>Active Monitoring</strong>
+            <p>Horizon automatically detects when you visit a site listed in your "Target Sites".</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">02</div>
+          <div class="step-text">
+            <strong>Gravity Well</strong>
+            <p>As you scroll down, gravity increases. The deeper you scroll, the harder it becomes to continue.</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">03</div>
+          <div class="step-text">
+            <strong>Target Acquisition</strong>
+            <p>To add a new site, simply open it in your browser and click <b>"+ Add Current Tab"</b>.</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">04</div>
+          <div class="step-text">
+            <strong>Override</strong>
+            <p>You can disable the system at any time using the toggle in the top right or if you reload the page.</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>

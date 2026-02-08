@@ -277,3 +277,76 @@ tr:hover .delete-site { opacity: 1; }
   opacity: 1;
   transform: translateX(-50%) translateY(0);
 }
+
+/* Header Controls layout */
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Round Help Button */
+.icon-btn-round {
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  border: 1px solid var(--glass-border);
+  background: rgba(255,255,255,0.05);
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'JetBrains Mono', monospace; font-weight: bold;
+  transition: 0.2s;
+}
+.icon-btn-round:hover {
+  border-color: var(--primary); color: var(--primary);
+  background: rgba(0, 242, 255, 0.1);
+}
+
+/* --- MODAL STYLES --- */
+.modal-overlay {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(5, 5, 16, 0.85);
+  backdrop-filter: blur(5px);
+  z-index: 1000;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.modal-overlay.active { opacity: 1; pointer-events: all; }
+
+.modal-card {
+  width: 90%; max-width: 320px;
+  background: #141423;
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+  transform: translateY(20px); transition: transform 0.3s ease;
+}
+.modal-overlay.active .modal-card { transform: translateY(0); }
+
+.modal-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 20px; padding-bottom: 12px;
+  border-bottom: 1px solid var(--glass-border);
+}
+.modal-header h3 {
+  margin: 0; font-size: 14px; text-transform: uppercase;
+  letter-spacing: 1px; color: var(--primary);
+}
+.close-modal {
+  background: none; border: none; color: var(--text-muted);
+  font-size: 20px; cursor: pointer;
+}
+.close-modal:hover { color: #fff; }
+
+.step-item { display: flex; gap: 12px; margin-bottom: 16px; }
+.step-item:last-child { margin-bottom: 0; }
+.step-num {
+  font-family: 'JetBrains Mono', monospace; color: var(--accent);
+  font-size: 12px; font-weight: bold; padding-top: 2px;
+}
+.step-text strong { display: block; font-size: 13px; color: #fff; margin-bottom: 2px; }
+.step-text p {
+  margin: 0; font-size: 12px; color: var(--text-muted); line-height: 1.4;
+}

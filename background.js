@@ -15,7 +15,7 @@ chrome.runtime.onInstalled.addListener(async () => {
   const data = await chrome.storage.sync.get(['targetSites']);
   if (!data.targetSites) {
     await chrome.storage.sync.set({ targetSites: DEFAULT_SITES });
-    console.log('✅ Default sites initialized');
+    // console.log(' Default sites initialized');
   }
 });
 

@@ -1,37 +1,71 @@
+
 (() => {
-  // Default settings
+  // ---------------------------------------------------------
+  // DEBUG SETTINGS (enable logs)
+  const DEBUG_MODE = true; 
+
+  // Helper function to handle logging
+  const log = (...args) => {
+    if (DEBUG_MODE) {
+      console.log(...args);
+    }
+  };
+  // ---------------------------------------------------------
+
+  log('🕳️ Scroll Blackhole script loaded');
+
   const DEFAULTS = {
-  resistanceGrowth: 0.00008,
-  maxResistance: 0.999,
-  recoveryRate: 2.5,
-  blockKeyboard: true,
-  blockScrollbar: true,
-  enableEasterEgg: true,
-  easterEggThreshold: 120000 // ← Changed from 50000
-};
+    gravitationalPull: 0.00008,
+    singularityStrength: 0.999,
+    hawkingRadiation: 2.5,
+    eventHorizonEnabled: true,
+    blockKeyboard: true,
+    blockScrollbar: true,
+    enableEasterEgg: true,
+    easterEggThreshold: 140000,
+    targetSites: [
+      "*://*.x.com/*",
+      "*://*.twitter.com/*",
+      "*://*.instagram.com/*",
+      "*://*.facebook.com/*",
+      "*://*.youtube.com/*"
+    ]
+  };
 
   let settings = { ...DEFAULTS };
   let totalScrollDistance = 0;
   let easterEggTriggered = false;
+  let isActive = false;
 
-  // Load settings from storage
-  chrome.storage.sync.get(DEFAULTS, (stored) => {
-    settings = stored;
-    applyScrollbarBlock();
-  });
-
-  // Listen for settings changes
-  chrome.storage.onChanged.addListener((changes) => {
-    for (let key in changes) {
-      settings[key] = changes[key].newValue;
-    }
-    applyScrollbarBlock();
-  });
+  // Check if current site matches target patterns
+  function checkIfTargetSite() {
+    const currentUrl = window.location.href;
+    log('🔍 Checking URL:', currentUrl);
+    
+    const matches = settings.targetSites.some(pattern => {
+      let regexPattern = pattern
+        .replace(/\./g, '\\.')           
+        .replace(/\*:\/\/\*\\\./g, '.*://([^/]*\\.)?')  
+        .replace(/\*/g, '.*');            
+      
+      const regex = new RegExp('^' + regexPattern + '$');
+      const isMatch = regex.test(currentUrl);
+      return isMatch;
+    });
+    
+    log('✅ Site matches:', matches);
+    return matches;
+  }
 
   // Block scrollbar dragging
   function applyScrollbarBlock() {
+    if (!document.head) {
+      setTimeout(applyScrollbarBlock, 10);
+      return;
+    }
+
     const style = document.getElementById('blackhole-scrollbar-block');
-    if (settings.blockScrollbar) {
+    if (settings.blockScrollbar && isActive) {
       if (!style) {
         const styleEl = document.createElement('style');
         styleEl.id = 'blackhole-scrollbar-block';
@@ -40,6 +74,7 @@
           html { scrollbar-width: none !important; -ms-overflow-style: none !important; }
         `;
         document.head.appendChild(styleEl);
+        log('🚫 Scrollbar hidden');
       }
     } else {
       style?.remove();
@@ -48,7 +83,7 @@
 
   // Block keyboard scrolling
   function blockKeyboardScroll(e) {
-    if (!settings.blockKeyboard) return;
+    if (!isActive || !settings.blockKeyboard) return;
     
     const scrollKeys = [
       'ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', 
@@ -57,14 +92,12 @@
     
     if (scrollKeys.includes(e.key) || (e.key === ' ')) {
       e.preventDefault();
+      log('⌨️ Blocked keyboard scroll:', e.key);
       
-      // Still apply black hole physics to keyboard attempts
       const simulatedDelta = ['ArrowDown', 'PageDown', 'End', 'Space'].includes(e.key) ? 100 : -100;
       updateScrollDistance(simulatedDelta);
     }
   }
-
-  document.addEventListener('keydown', blockKeyboardScroll, { passive: false });
 
   // Update scroll distance and check easter egg
   function updateScrollDistance(delta) {
@@ -75,23 +108,29 @@
     } else if (direction < 0) {
       totalScrollDistance = Math.max(
         0,
-        totalScrollDistance - Math.abs(delta) * settings.recoveryRate
+        totalScrollDistance - Math.abs(delta) * settings.hawkingRadiation
       );
     }
 
-    // Easter egg: redirect after extreme scrolling
+    // Log every 10000 units
+    if (Math.floor(totalScrollDistance / 10000) > Math.floor((totalScrollDistance - Math.abs(delta)) / 10000)) {
+      log('📏 Scroll distance:', totalScrollDistance.toFixed(0));
+    }
+
+    // Easter egg check
     if (
       settings.enableEasterEgg &&
       !easterEggTriggered &&
       totalScrollDistance > settings.easterEggThreshold
     ) {
       easterEggTriggered = true;
+      log('🥚 EASTER EGG TRIGGERED!');
       triggerEasterEgg();
     }
   }
 
+  // Easter egg
   function triggerEasterEgg() {
-    // Create dramatic fade overlay
     const overlay = document.createElement('div');
     overlay.style.cssText = `
       position: fixed;
@@ -114,46 +153,99 @@
     overlay.innerHTML = `
       <div>
         <div style="font-size: 48px; margin-bottom: 20px;">🕳️</div>
-        <div>C'mon, don't you have better things to do...</div>
+        <div>Bruh, stop...</div>
         <div style="font-size: 16px; margin-top: 10px; opacity: 0.7;">Let me help you out...</div>
       </div>
     `;
     document.body.appendChild(overlay);
 
-    // Fade in
     setTimeout(() => overlay.style.opacity = '1', 10);
 
-    // Redirect after dramatic pause
     setTimeout(() => {
-      window.location.href = 'https://chatgpt.com/?prompt=Generate+a+schedule+for+a+productive+day.+Here+are+the+things+I+need+to+get+done';
+      window.location.href = 'https://chatgpt.com/?q=hi%20what%20can%20i%20do%20to%20improve%20my%20life';
     }, 3000);
   }
 
   // Main wheel event handler
-  window.addEventListener(
-    "wheel",
-    (e) => {
-      e.preventDefault();
+  function handleWheel(e) {
+    if (!isActive || !settings.eventHorizonEnabled) return;
+    
+    e.preventDefault();
 
-      const rawScroll = e.deltaY;
-      updateScrollDistance(rawScroll);
+    const rawScroll = e.deltaY;
+    updateScrollDistance(rawScroll);
 
-      // Calculate resistance
-      const resistance = Math.min(
-        settings.maxResistance,
-        1 - Math.exp(-totalScrollDistance * settings.resistanceGrowth)
-      );
+    // Calculate resistance
+    const resistance = Math.min(
+      settings.singularityStrength,
+      1 - Math.exp(-totalScrollDistance * settings.gravitationalPull)
+    );
 
-      // Apply resistance
-      const effectiveScroll = rawScroll * (1 - resistance);
+    const effectiveScroll = rawScroll * (1 - resistance);
 
-      if (Math.abs(effectiveScroll) > 0.1) {
-        window.scrollBy({
-          top: effectiveScroll,
-          behavior: "auto"
-        });
+    if (Math.abs(effectiveScroll) > 0.1) {
+      window.scrollBy({
+        top: effectiveScroll,
+        behavior: "auto"
+      });
+    }
+  }
+
+  // Initialize on load
+  function init() {
+    log('🚀 Initializing...');
+    
+    chrome.storage.sync.get(DEFAULTS, (stored) => {
+      log('💾 Loaded settings:', stored);
+      settings = stored;
+      isActive = checkIfTargetSite() && settings.eventHorizonEnabled;
+      
+      log('⚡ Event Horizon Enabled:', settings.eventHorizonEnabled);
+      log('🎯 Is Active:', isActive);
+      
+      if (isActive) {
+        applyScrollbarBlock();
+        
+        // Add event listeners
+        window.addEventListener('wheel', handleWheel, { passive: false });
+        document.addEventListener('keydown', blockKeyboardScroll, { passive: false });
+        
+        log('✅ Scroll Blackhole ACTIVATED');
+        log('   - Gravitational Pull:', settings.gravitationalPull);
+        log('   - Singularity Strength:', settings.singularityStrength);
+        log('   - Hawking Radiation:', settings.hawkingRadiation);
+      } else {
+        log('❌ Scroll Blackhole NOT activated (site not in target list or disabled)');
       }
-    },
-    { passive: false }
-  );
+    });
+
+    // Listen for settings changes
+    chrome.storage.onChanged.addListener((changes) => {
+      log('🔄 Settings changed:', changes);
+      
+      for (let key in changes) {
+        settings[key] = changes[key].newValue;
+      }
+      
+      const wasActive = isActive;
+      isActive = checkIfTargetSite() && settings.eventHorizonEnabled;
+      
+      // Re-apply scrollbar settings
+      applyScrollbarBlock();
+      
+      // Add/remove listeners if activation state changed
+      if (isActive && !wasActive) {
+        window.addEventListener('wheel', handleWheel, { passive: false });
+        document.addEventListener('keydown', blockKeyboardScroll, { passive: false });
+        log('✅ Scroll Blackhole ACTIVATED (via settings change)');
+      } else if (!isActive && wasActive) {
+        window.removeEventListener('wheel', handleWheel);
+        document.removeEventListener('keydown', blockKeyboardScroll);
+        log('❌ Scroll Blackhole DEACTIVATED (via settings change)');
+      }
+    });
+  }
+
+  // Start immediately
+  init();
 })();

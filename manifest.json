@@ -1,9 +1,12 @@
 {
   "manifest_version": 3,
   "name": "Horizon",
-  "version": "1.0",
-  "description": "Scrolling gets harder the more you scroll — like a black hole.",
-  "permissions": ["storage", "tabs"],
+  "version": "1.2",
+  "description": "Keeps track of your doomscrolling and helps you take breaks before you get sucked in.",
+  "permissions": ["storage", "tabs", "activeTab"],
+  "background": {
+    "service_worker": "background.js"
+  },
   "action": {
     "default_popup": "popup.html"
   },
@@ -11,7 +14,6 @@
     {
       "matches": ["<all_urls>"],
       "js": ["content.js"],
-      "css": ["content.css"],
       "run_at": "document_start"
     }
   ]

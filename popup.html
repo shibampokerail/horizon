@@ -8,65 +8,94 @@
   <div class="container">
     <div class="header">
       <span class="icon">🕳️</span>
-      <h1>Scroll Blackhole</h1>
+      <h1>Horizon</h1>
     </div>
 
-    <div class="section">
-      <label>
-        Resistance Growth
-        <span class="value" id="resistanceValue">0.00008</span>
-      </label>
-      <input type="range" id="resistanceGrowth" min="0.00001" max="0.0005" step="0.00001" value="0.00008">
-      <small>How quickly scrolling becomes harder</small>
+    <!-- Navigation Tabs -->
+    <div class="nav-tabs">
+      <button class="nav-btn active" data-tab="settings">Physics</button>
+      <button class="nav-btn" data-tab="sites">My Sites</button>
     </div>
 
-    <div class="section">
-      <label>
-        Max Resistance
-        <span class="value" id="maxResistanceValue">99.9%</span>
-      </label>
-      <input type="range" id="maxResistance" min="0.9" max="0.999" step="0.001" value="0.999">
-      <small>Maximum difficulty cap</small>
+    <!-- TAB 1: SETTINGS -->
+    <div id="tab-settings" class="tab-content active">
+      <div class="section">
+        <div class="section-header" id="eventHorizonToggle">
+          <h2>⚫ Event Horizon</h2>
+          <span class="chevron">▼</span>
+        </div>
+        
+        <!-- Default State: Collapsed (removed 'open' class) -->
+        <div class="collapsible-content" id="eventHorizonContent">
+          <label class="checkbox main-toggle">
+            <input type="checkbox" id="eventHorizonEnabled">
+            <span>Enable Event Horizon</span>
+          </label>
+          <hr>
+
+          <div class="physics-controls">
+            <div class="control-group">
+              <label>Rate Of Speed Decline <span class="value" id="gravitationalValue"></span></label>
+              <input type="range" id="gravitationalPull" min="0.00001" max="0.0005" step="0.00001">
+            </div>
+
+            <div class="control-group">
+              <label>Pull At Event Horizon <span class="value" id="singularityValue"></span></label>
+              <input type="range" id="singularityStrength" min="0.9" max="0.999" step="0.001">
+            </div>
+
+            <div class="control-group">
+              <label>Rewind Speed <span class="value" id="hawkingValue"></span></label>
+              <input type="range" id="hawkingRadiation" min="1" max="5" step="0.1">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Quantum Locks</h2>
+        <label class="checkbox">
+          <input type="checkbox" id="blockKeyboard">
+          <span>Block keyboard navigation</span>
+        </label>
+        <label class="checkbox">
+          <input type="checkbox" id="blockScrollbar">
+          <span>Hide scrollbar interface</span>
+        </label>
+      </div>
+      
+      <div class="buttons">
+        <button id="reset" class="secondary">Reset</button>
+        <button id="save" class="primary">Apply</button>
+      </div>
     </div>
 
-    <div class="section">
-      <label>
-        Recovery Rate
-        <span class="value" id="recoveryValue">2.5x</span>
-      </label>
-      <input type="range" id="recoveryRate" min="1" max="5" step="0.1" value="2.5">
-      <small>How fast scrolling up recovers you</small>
-    </div>
+    <!-- TAB 2: SITES MANAGER -->
+    <div id="tab-sites" class="tab-content">
+      <div class="input-group">
+        <input type="text" id="newSiteInput" placeholder="e.g., reddit.com">
+        <button id="addSiteBtn" class="primary-btn">+</button>
+      </div>
+      
+      <button id="addCurrentSiteBtn" class="secondary-full">
+        + Add Active Tab
+      </button>
 
-    <div class="section">
-      <label class="checkbox">
-        <input type="checkbox" id="blockKeyboard" checked>
-        <span>Block keyboard scrolling (↓ PgDn End)</span>
-      </label>
-    </div>
-
-    <div class="section">
-      <label class="checkbox">
-        <input type="checkbox" id="blockScrollbar" checked>
-        <span>Hide scrollbar (prevent dragging)</span>
-      </label>
-    </div>
-
-    <!-- <div class="section">
-      <label class="checkbox">
-        <input type="checkbox" id="enableEasterEgg" checked>
-        <span>Enable escape hatch</span>
-      </label>
-      <small>Secret redirect after extreme scrolling</small>
-    </div> -->
-
-    <div class="buttons">
-      <button id="reset" class="secondary">Reset to Default</button>
-      <button id="save" class="primary">Save Settings</button>
-    </div>
-
-    <div class="footer">
-      <small>Settings apply to all tabs after reload</small>
+      <div class="table-container">
+        <table id="sitesTable">
+          <thead>
+            <tr>
+              <th>Site</th>
+              <th>Time Lost</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="sitesTableBody">
+            <!-- Populated by JS -->
+          </tbody>
+        </table>
+      </div>
+      <div class="footer-note">Time tracked while tab is active</div>
     </div>
   </div>
 

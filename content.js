@@ -1,11 +1,11 @@
 (() => {
   // ---------------------------------------------------------
-  // 🛠️ DEBUG SETTINGS
+  // DEBUG SETTINGS
   const DEBUG_MODE = false; 
   const log = (...args) => DEBUG_MODE && console.log(...args);
   // ---------------------------------------------------------
 
-  log('🕳️ Horizon: Script loaded');
+  log('Horizon: Script loaded');
 
   const DEFAULTS = {
     gravitationalPull: 0.00008,
@@ -31,7 +31,7 @@
 
   function checkIfTargetSite() {
     const currentUrl = window.location.href;
-    log('🔍 Checking URL:', currentUrl);
+    log('Checking URL:', currentUrl);
     
     if (!settings.targetSites || settings.targetSites.length === 0) return false;
 
@@ -45,7 +45,7 @@
       return regex.test(currentUrl);
     });
     
-    log('✅ Site match result:', matches);
+    log('Site match result:', matches);
     return matches;
   }
 
@@ -56,7 +56,7 @@
     const isTarget = checkIfTargetSite();
     const shouldBeActive = isTarget && settings.eventHorizonEnabled;
 
-    log(`🔄 Engine State Update. Target: ${isTarget}, Enabled: ${settings.eventHorizonEnabled} -> Should Active: ${shouldBeActive}`);
+    log(`Engine State Update. Target: ${isTarget}, Enabled: ${settings.eventHorizonEnabled} -> Should Active: ${shouldBeActive}`);
 
     // 2. Update Global State
     isActive = shouldBeActive;
@@ -65,11 +65,11 @@
     if (isActive) {
       applyScrollbarBlock();
       attachListeners();
-      log('🚀 Physics Engine ENGAGED');
+      log('Physics Engine ENGAGED');
     } else {
       removeScrollbarBlock();
       detachListeners();
-      log('🛑 Physics Engine DISENGAGED');
+      log('Physics Engine DISENGAGED');
     }
   }
 
@@ -131,7 +131,7 @@
     
     if (scrollKeys.includes(e.key) || (e.key === ' ')) {
       e.preventDefault();
-      log('⌨️ Blocked keyboard scroll:', e.key);
+      log('Blocked keyboard scroll:', e.key);
       
       const simulatedDelta = ['ArrowDown', 'PageDown', 'End', 'Space'].includes(e.key) ? 100 : -100;
       updateScrollDistance(simulatedDelta);
@@ -164,7 +164,7 @@
       totalScrollDistance > settings.easterEggThreshold
     ) {
       easterEggTriggered = true;
-      log('🥚 EASTER EGG TRIGGERED!');
+      log('EASTER EGG TRIGGERED!');
       triggerEasterEgg();
     }
   }
@@ -233,11 +233,11 @@
   // --- 5. INITIALIZATION ---
 
   function init() {
-    log('🚀 Initializing...');
+    log('Initializing...');
     
     // 1. Get Settings
     chrome.storage.sync.get(DEFAULTS, (stored) => {
-      log('💾 Loaded settings:', stored);
+      log('Loaded settings:', stored);
       settings = stored;
       
       // 2. Decide State immediately
@@ -246,7 +246,7 @@
 
     // 3. Listen for changes (Instant Update Logic)
     chrome.storage.onChanged.addListener((changes) => {
-      log('📡 Settings changed:', changes);
+      log('Settings changed:', changes);
       
       // Update our local settings copy
       for (let key in changes) {
